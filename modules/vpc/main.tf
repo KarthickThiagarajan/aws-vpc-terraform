@@ -45,3 +45,28 @@ resource "aws_subnet" "private" {
     Tier        = "Private"
   }
 }
+resource "aws_eip" "nat" {
+  count  = length(var.availability_zones)
+  domain = "vpc"
+
+  tags = {
+    Name        = "${var.name}-nat-eip-${count.index + 1}"
+    Environment = var.environment
+  }
+}
+
+resource "aws_nat_gateway" "this" {
+  count = length(var.availability_zones)
+
+  allocation_id = aws_eip.nat[count.index].id
+  subnet_id     = aws_subnet.public[count.index].id
+
+  depends_on = [
+    aws_internet_gateway.this
+  ]
+
+  tags = {
+    Name        = "${var.name}-nat-${count.index + 1}"
+    Environment = var.environment
+  }
+}
