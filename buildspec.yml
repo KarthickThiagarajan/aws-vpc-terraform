@@ -1,0 +1,32 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Installing Terraform..."
+      - terraform version
+
+  pre_build:
+    commands:
+      - echo "Entering Terraform directory..."
+      - cd terraform
+      - echo "Running Terraform format check..."
+      - terraform fmt -check -recursive
+      - echo "Initializing Terraform..."
+      - terraform init -input=false
+
+  build:
+    commands:
+      - echo "Validating Terraform configuration..."
+      - terraform validate
+      - echo "Creating Terraform plan..."
+      - terraform plan -input=false -out=tfplan
+
+  post_build:
+    commands:
+      - echo "Terraform plan completed."
+
+artifacts:
+  files:
+    - terraform/tfplan
+  discard-paths: no
