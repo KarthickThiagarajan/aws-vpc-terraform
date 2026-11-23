@@ -8,7 +8,8 @@ The architecture is designed to provide a foundation for hosting application wor
 
 ## Architecture Diagram
 
-![AWS VPC Architecture](architecture/aws-vpc-architecture.png)
+![AWS VPC Architecture](architecture/aws-vpc-multi-az-architecture.png)
+
 
 ##  Architecture
 
