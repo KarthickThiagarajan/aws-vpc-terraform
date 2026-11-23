@@ -6,7 +6,10 @@ This project demonstrates how to design, provision, and manage a secure, highly 
 
 The architecture is designed to provide a foundation for hosting application workloads across multiple Availability Zones while maintaining separation between public and private resources.
 
----
+## Architecture Diagram
+
+![AWS VPC Architecture](architecture/aws-vpc-architecture.png)
+
 ##  Architecture
 
 The VPC uses a multi-Availability Zone architecture with dedicated public and private subnets.
