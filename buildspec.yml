@@ -1,25 +1,31 @@
+
 version: 0.2
 
 phases:
   install:
     commands:
-      - echo "Installing Terraform..."
+      - echo "Checking Terraform installation..."
+      - |
+        if ! command -v terraform >/dev/null 2>&1; then
+          echo "Terraform is not installed in the build image."
+          exit 1
+        fi
       - terraform version
 
   pre_build:
     commands:
-      - echo "Entering Terraform directory..."
-      - cd terraform
-      - echo "Running Terraform format check..."
+      - cd "$CODEBUILD_SRC_DIR/terraform"
+      - echo "Checking Terraform formatting..."
       - terraform fmt -check -recursive
       - echo "Initializing Terraform..."
       - terraform init -input=false
 
   build:
     commands:
+      - cd "$CODEBUILD_SRC_DIR/terraform"
       - echo "Validating Terraform configuration..."
       - terraform validate
-      - echo "Creating Terraform plan..."
+      - echo "Generating Terraform plan..."
       - terraform plan -input=false -out=tfplan
 
   post_build:
